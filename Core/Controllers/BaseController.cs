@@ -1,14 +1,8 @@
 ﻿using Core.Models;
-using log4net.Repository.Hierarchy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
-using ILoggerFactory = log4net.Repository.Hierarchy.ILoggerFactory;
 
 namespace Core.Controllers
 {
@@ -34,10 +28,6 @@ namespace Core.Controllers
 
             try
             {
-                //儲存API Log
-                string HostUrl = $"{Request.Scheme}://{Request.Host}{Request.Path}";
-                Global.SaveApiLog(HostUrl, request.function.ToString(), obj.ToString());
-
                 //依照Function代號進行對應操作
                 switch (request.function.ToString())
                 {
@@ -55,6 +45,12 @@ namespace Core.Controllers
                 _log.LogError(ex.Message);
 
                 return result;
+            }
+            finally
+            {
+                //儲存API Log
+                string HostUrl = $"{Request.Scheme}://{Request.Host}{Request.Path}";
+                Global.SaveApiLog(HostUrl, request.function.ToString(), obj.ToString());
             }
         }
     }

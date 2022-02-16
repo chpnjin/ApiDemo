@@ -19,7 +19,7 @@ namespace Core.Models
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json");
             var config = builder.Build();
-            var connectionString = config.GetConnectionString("MCS");
+            var connectionString = config.GetConnectionString("MySQL");
 
             IDAO dao = new MySQL(connectionString);
             LOG log = new LOG();
